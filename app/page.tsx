@@ -13,13 +13,13 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useChat } from "@ai-sdk/react";
-import { ArrowUp, Loader2, Plus, Square, XCircle, RefreshCw, BookOpen, Sparkles, MessageSquare } from "lucide-react";
+import { ArrowUp, Loader2, Plus, Square, XCircle, RefreshCw, BookOpen, Sparkles, MessageSquare, Upload } from "lucide-react";
 import { MessageWall } from "@/components/messages/message-wall";
 import { ChatHeader } from "@/app/parts/chat-header";
 import { ChatHeaderBlock } from "@/app/parts/chat-header";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UIMessage } from "ai";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, ChangeEvent } from "react";
 import { AI_NAME, CLEAR_CHAT_TEXT, OWNER_NAME, WELCOME_MESSAGE } from "@/config";
 import Image from "next/image";
 import Link from "next/link";
@@ -68,7 +68,9 @@ const saveMessagesToStorage = (messages: UIMessage[], durations: Record<string, 
 export default function Chat() {
   const [isClient, setIsClient] = useState(false);
   const [durations, setDurations] = useState<Record<string, number>>({});
+  const [isUploadingCV, setIsUploadingCV] = useState(false);
   const welcomeMessageShownRef = useRef<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const stored = typeof window !== 'undefined' ? loadMessagesFromStorage() : { messages: [], durations: {} };
   const [initialMessages] = useState<UIMessage[]>(stored.messages);
@@ -146,6 +148,53 @@ export default function Chat() {
 
   function handleChangeTopic() {
     sendMessage({ text: "Change Topic" });
+  }
+
+  function handleUploadCVClick() {
+    fileInputRef.current?.click();
+  }
+
+  async function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.name.toLowerCase().endsWith('.pdf')) {
+      toast.error("Please upload a PDF file");
+      return;
+    }
+
+    setIsUploadingCV(true);
+    
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch('/api/parse-cv', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast.error(data.error || "Failed to parse CV");
+        return;
+      }
+
+      sendMessage({ 
+        text: `I have uploaded my CV. Please analyze it and ask me relevant interview questions based on my background.\n\n---CV CONTENT START---\n${data.text}\n---CV CONTENT END---` 
+      });
+      
+      toast.success(`CV uploaded successfully (${data.pages} page${data.pages > 1 ? 's' : ''})`);
+    } catch (error) {
+      console.error('CV upload error:', error);
+      toast.error("Failed to upload CV. Please try again.");
+    } finally {
+      setIsUploadingCV(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
   }
 
   return (
@@ -259,6 +308,27 @@ export default function Chat() {
                   <BookOpen className="size-4 group-hover:text-accent transition-colors" />
                   Change Topic
                 </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="cursor-pointer glass-effect glass-border hover:glow-subtle hover:border-green-500/50 hover:text-green-400 transition-all duration-300 group"
+                  onClick={handleUploadCVClick}
+                  disabled={status === "streaming" || status === "submitted" || isUploadingCV}
+                >
+                  {isUploadingCV ? (
+                    <Loader2 className="size-4 animate-spin" />
+                  ) : (
+                    <Upload className="size-4 group-hover:text-green-400 transition-colors" />
+                  )}
+                  {isUploadingCV ? "Uploading..." : "Upload CV"}
+                </Button>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  accept=".pdf"
+                  className="hidden"
+                />
               </div>
             </div>
           </div>

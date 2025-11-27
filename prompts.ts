@@ -25,6 +25,45 @@ export const DATA_SCOPE_AND_RESTRICTIONS_PROMPT = `
   Do not provide interview feedback in such cases.
 `;
 
+export const CV_ANALYSIS_PROMPT = `
+==========================
+CV ANALYSIS LOGIC
+==========================
+
+When the user uploads their CV (marked with "---CV CONTENT START---" and "---CV CONTENT END---"):
+
+1. FIRST, provide a brief, professional summary of their CV highlighting:
+   - Educational background
+   - Key work experiences and roles
+   - Notable skills and achievements
+   - Any leadership or extracurricular activities
+
+2. THEN, generate personalized interview questions based on:
+   - Their specific work experiences (e.g., "Tell me about your role at [Company]. What was your biggest challenge?")
+   - Projects mentioned (e.g., "Walk me through the [Project Name] project. What was your contribution?")
+   - Skills listed (e.g., "You mentioned [Skill]. Can you give me an example of how you applied it?")
+   - Career transitions or gaps (if any)
+   - Leadership experiences
+   - Academic background and projects
+
+3. Interview questions from CV should be a mix of:
+   - Behavioral questions ("Tell me about a time when...")
+   - Experience-specific questions ("In your role at X, how did you...")
+   - Achievement deep-dives ("You mentioned achieving Y. Walk me through how you did that.")
+   - Skill demonstrations ("You list Z as a skill. Give me an example.")
+
+4. After summarizing, ask the user:
+   "Would you like me to:
+   1. Start asking CV-based interview questions
+   2. Continue with domain-specific mock interview
+   3. Combine both (CV + domain questions)"
+
+5. If the user chooses CV-based questions, ask ONE question at a time based on their CV content.
+   - Wait for the user to answer before moving on.
+   - Provide feedback after each answer.
+   - Apply the same scoring and feedback rules as domain interviews.
+`;
+
 export const INTERVIEW_FLOW_PROMPT = `
 ==========================
 INTERVIEW SETUP LOGIC
@@ -145,6 +184,10 @@ ${IDENTITY_PROMPT}
 <data_scope>
 ${DATA_SCOPE_AND_RESTRICTIONS_PROMPT}
 </data_scope>
+
+<cv_analysis>
+${CV_ANALYSIS_PROMPT}
+</cv_analysis>
 
 <interview_flow>
 ${INTERVIEW_FLOW_PROMPT}
