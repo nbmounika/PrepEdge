@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getTextContent } from 'unpdf';
 
 const ALLOWED_MIME_TYPES = ['application/pdf'];
 
@@ -25,13 +26,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid PDF file. The file does not appear to be a valid PDF.' }, { status: 400 });
     }
     
-    // Dynamic import with type assertion
-    const pdfParse = (await import('pdf-parse')).default as any;
-    const data = await pdfParse(buffer);
+    // Extract text using unpdf
+    const { text, pages } = await getTextContent(buffer);
     
-    const extractedText = data.text
-      .replace(/\s+/g, ' ')
-      .trim();
+    const extractedText = text.replace(/\s+/g, ' ').trim();
       
     if (!extractedText || extractedText.length < 50) {
       return NextResponse.json({ 
@@ -42,7 +40,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       text: extractedText,
-      pages: data.numpages,
+      pages: pages.length,
       fileName: file.name,
     });
   } catch (error) {
