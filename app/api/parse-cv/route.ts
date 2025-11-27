@@ -1,52 +1,36 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getTextContent } from 'unpdf';
+import pdfParse from 'pdf-parse/lib/pdf-parse.js';
 
-const ALLOWED_MIME_TYPES = ['application/pdf'];
-
-export async function POST(req: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    const formData = await req.formData();
+    const formData = await request.formData();
     const file = formData.get('file') as File;
-    
+
     if (!file) {
-      return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
+      return NextResponse.json({ error: 'No file provided' }, { status: 400 });
     }
-    if (!file.name.toLowerCase().endsWith('.pdf')) {
-      return NextResponse.json({ error: 'Only PDF files are supported' }, { status: 400 });
+
+    if (!file.type.includes('pdf')) {
+      return NextResponse.json({ error: 'File must be a PDF' }, { status: 400 });
     }
-    if (file.type && !ALLOWED_MIME_TYPES.includes(file.type)) {
-      return NextResponse.json({ error: 'Invalid file type. Only PDF files are allowed.' }, { status: 400 });
-    }
-    
+
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
     
-    const pdfSignature = buffer.slice(0, 5).toString();
-    if (!pdfSignature.startsWith('%PDF-')) {
-      return NextResponse.json({ error: 'Invalid PDF file. The file does not appear to be a valid PDF.' }, { status: 400 });
-    }
-    
-    // Extract text using unpdf
-    const { text, pages } = await getTextContent(buffer);
-    
-    const extractedText = text.replace(/\s+/g, ' ').trim();
-      
-    if (!extractedText || extractedText.length < 50) {
-      return NextResponse.json({ 
-        error: 'Could not extract meaningful text from the PDF. Please ensure the PDF contains readable text (not scanned images).' 
-      }, { status: 400 });
-    }
-    
-    return NextResponse.json({
-      success: true,
-      text: extractedText,
-      pages: pages.length,
+    const data = await pdfParse(buffer);
+    const text = data.text;
+
+    return NextResponse.json({ 
+      text,
       fileName: file.name,
+      pageCount: data.numpages,
+      success: true
     });
   } catch (error) {
     console.error('PDF parsing error:', error);
-    return NextResponse.json({ 
-      error: 'Failed to parse PDF. Please ensure the file is a valid PDF document.' 
-    }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to parse PDF' },
+      { status: 500 }
+    );
   }
 }
