@@ -13,188 +13,206 @@ export default function Terms() {
                     <ArrowLeftIcon className="w-4 h-4" />
                     Back to Chatbot
                 </Link>
-                <h1 className="text-3xl font-bold">MyAI3</h1>
+
+                <h1 className="text-3xl font-bold">PrepEdge (BITSoM Mock Interview Prep)</h1>
                 <h2 className="text-2xl font-semibold">Terms of Use / Disclaimer</h2>
 
                 <p className="text-gray-700">
-                    The following terms of use govern access to and use of the MyAI3
-                    Assistant ("AI Chatbot"), an artificial intelligence tool provided by
-                    {OWNER_NAME} ("I", "me", or "myself"). By engaging with the AI
-                    Chatbot, you agree to these terms. If you do not agree, you may not
-                    use the AI Chatbot.
+                    The following terms govern your access to and use of the PrepEdge 
+                    Mock Interview Preparation Chatbot (“Chatbot”), an AI-based educational 
+                    tool created and provided by {OWNER_NAME} (“I”, “me”, or “my team”). 
+                    By using the Chatbot, you agree to these terms. If you do not agree, 
+                    you may not use the Chatbot.
                 </p>
 
+                {/* GENERAL INFORMATION */}
                 <div className="space-y-4">
                     <h3 className="text-xl font-semibold">General Information</h3>
                     <ol className="list-decimal list-inside space-y-3">
                         <li className="text-gray-700">
-                            <span className="font-semibold">Provider and Purpose:</span> The
-                            AI Chatbot is a tool developed and maintained by {OWNER_NAME}. It
-                            is intended solely to assist users with questions and coursework
-                            related to courses taught by {OWNER_NAME}. The AI Chatbot is not
-                            affiliated with, endorsed by, or operated by the course provider.
+                            <span className="font-semibold">Purpose and Provider:</span> 
+                            The Chatbot is developed and maintained by {OWNER_NAME}. 
+                            It is designed exclusively for BITSoM students to help 
+                            practice mock interviews across domains such as Marketing, 
+                            Finance, Operations & General Management, and Consulting. 
+                            PrepEdge is an independent tool and is not officially 
+                            affiliated with, endorsed by, or operated by BITSoM.
                         </li>
+
                         <li className="text-gray-700">
-                            <span className="font-semibold">Third-Party Involvement:</span>{" "}
-                            The AI Chatbot utilizes multiple third-party platforms and
-                            vendors, some of which operate outside the United States. Your
-                            inputs may be transmitted, processed, and stored by these
-                            third-party systems. As such, confidentiality, security, and privacy
-                            cannot be guaranteed, and data transmission may be inherently
-                            insecure and subject to interception.
+                            <span className="font-semibold">Third-Party Services:</span> 
+                            The Chatbot leverages third-party AI and cloud services that 
+                            may operate outside India. Your inputs may be processed, 
+                            transmitted, or stored by these services. 
+                            Privacy and security cannot be guaranteed, and all information 
+                            shared may be susceptible to interception or unauthorized access.
                         </li>
+
                         <li className="text-gray-700">
-                            <span className="font-semibold">No Guarantee of Accuracy:</span>{" "}
-                            The AI Chatbot is designed to provide helpful and relevant
-                            responses but may deliver inaccurate, incomplete, or outdated
-                            information. Users are strongly encouraged to independently verify
-                            any information before relying on it for decisions or actions.
+                            <span className="font-semibold">Accuracy Not Guaranteed:</span> 
+                            Although designed to replicate realistic interview interactions, 
+                            the Chatbot may produce inaccurate, incomplete, or outdated 
+                            information. Users must verify responses independently and should 
+                            not rely solely on the Chatbot for academic, professional, or 
+                            career decisions.
                         </li>
                     </ol>
                 </div>
 
+                {/* LIABILITY */}
                 <div className="space-y-4">
                     <h3 className="text-xl font-semibold">Liability</h3>
                     <ol className="list-decimal list-inside space-y-3">
                         <li className="text-gray-700">
-                            <span className="font-semibold">Use at Your Own Risk:</span> The
-                            AI Chatbot is provided on an "as-is" and "as-available" basis. To
-                            the fullest extent permitted by law:
+                            <span className="font-semibold">Use at Your Own Risk:</span> 
+                            The Chatbot is provided “as-is” and “as-available.” 
+                            To the fullest extent permitted by law:
                             <ul className="list-disc list-inside ml-6 mt-2 space-y-2">
                                 <li>
-                                    {OWNER_NAME} disclaims all warranties, express or implied,
-                                    including but not limited to warranties of merchantability,
-                                    fitness for a particular purpose, and non-infringement.
+                                    {OWNER_NAME} disclaims all warranties, including 
+                                    implied warranties of accuracy, reliability, 
+                                    merchantability, and fitness for a particular purpose.
                                 </li>
                                 <li>
-                                    {OWNER_NAME} is not liable for any errors, inaccuracies, or
-                                    omissions in the information provided by the AI Chatbot.
+                                    {OWNER_NAME} is not responsible for errors, omissions, 
+                                    or limitations in the content generated by the Chatbot.
                                 </li>
                             </ul>
                         </li>
+
                         <li className="text-gray-700">
-                            <span className="font-semibold">
-                                No Responsibility for Damages:
-                            </span>{" "}
-                            Under no circumstances shall {OWNER_NAME}, his collaborators,
-                            partners, affiliated entities, or representatives be liable for
-                            any direct, indirect, incidental, consequential, special, or
-                            punitive damages arising out of or in connection with the use of
-                            the AI Chatbot.
+                            <span className="font-semibold">No Liability for Damages:</span> 
+                            Under no circumstances shall {OWNER_NAME}, collaborators, 
+                            partners, or affiliated entities be held liable for any direct, 
+                            indirect, incidental, consequential, punitive, or special 
+                            damages arising from the use of the Chatbot.
                         </li>
+
                         <li className="text-gray-700">
-                            <span className="font-semibold">
-                                Modification or Discontinuation:
-                            </span>{" "}
-                            I reserve the right to modify, suspend, or discontinue the AI
-                            Chatbot's functionalities at any time without notice.
+                            <span className="font-semibold">Modifications:</span> 
+                            I reserve the right to modify, update, suspend, or discontinue 
+                            the Chatbot at any time without notice.
                         </li>
+
                         <li className="text-gray-700">
-                            <span className="font-semibold">Future Fees:</span> While the AI
-                            Chatbot is currently provided free of charge, I reserve the right
-                            to implement a fee for its use at any time.
+                            <span className="font-semibold">Future Pricing:</span> 
+                            While the Chatbot is currently free for BITSoM students, 
+                            I retain the right to introduce usage fees in the future.
                         </li>
                     </ol>
                 </div>
 
+                {/* USER RESPONSIBILITIES */}
                 <div className="space-y-4">
                     <h3 className="text-xl font-semibold">User Responsibilities</h3>
                     <ol className="list-decimal list-inside space-y-3">
                         <li className="text-gray-700">
-                            <span className="font-semibold">Eligibility:</span> Use of the AI
-                            Chatbot is restricted to individuals aged 18 or older.
+                            <span className="font-semibold">Eligibility:</span> 
+                            Use of the Chatbot is restricted to individuals aged 18 or older.
                         </li>
+
                         <li className="text-gray-700">
-                            <span className="font-semibold">Prohibited Conduct:</span> By
-                            using the AI Chatbot, you agree not to:
+                            <span className="font-semibold">Prohibited Activities:</span> 
+                            Users agree not to:
                             <ul className="list-disc list-inside ml-6 mt-2 space-y-2">
-                                <li>Post or transmit content that is defamatory, offensive, intimidating, illegal, racist, discriminatory, obscene, or otherwise inappropriate.</li>
-                                <li>Use the AI Chatbot to engage in unlawful or unethical activities.</li>
-                                <li>Attempt to compromise the security or functionality of the AI Chatbot</li>
-                                <li>Copy, distribute, modify, reverse engineer, decompile, or extract the source code of the AI Chatbot without explicit written consent.</li>
+                                <li>
+                                    Submit content that is defamatory, threatening, abusive, 
+                                    discriminatory, explicit, or otherwise inappropriate.
+                                </li>
+                                <li>Use the Chatbot for illegal or unethical activities.</li>
+                                <li>Attempt to disrupt, damage, or compromise the Chatbot.</li>
+                                <li>
+                                    Reverse-engineer, extract, or replicate the underlying 
+                                    AI systems or code without explicit written permission.
+                                </li>
                             </ul>
                         </li>
                     </ol>
                 </div>
 
+                {/* DATA PRIVACY */}
                 <div className="space-y-4">
                     <h3 className="text-xl font-semibold">Data Privacy and Security</h3>
                     <ol className="list-decimal list-inside space-y-3">
                         <li className="text-gray-700">
-                            <span className="font-semibold">No Privacy Guarantee:</span> The
-                            AI Chatbot does not guarantee privacy, confidentiality, or
-                            security of the information you provide. Conversations may be
-                            reviewed by {OWNER_NAME}, collaborators, partners, or affiliated
-                            entities for purposes such as improving the AI Chatbot, developing
-                            course materials, and conducting research.
+                            <span className="font-semibold">No Privacy Guarantee:</span> 
+                            The Chatbot cannot guarantee privacy or confidentiality. 
+                            Conversations may be reviewed by {OWNER_NAME}, collaborators, 
+                            or partners to improve model performance, enhance interview flows, 
+                            or support research.
                         </li>
+
                         <li className="text-gray-700">
-                            <span className="font-semibold">Public Information:</span> Any
-                            information you provide through the AI Chatbot is treated as
-                            public.
+                            <span className="font-semibold">Public Nature of Inputs:</span> 
+                            Any inputs provided may be treated as non-confidential and 
+                            non-proprietary.
                         </li>
+
                         <li className="text-gray-700">
-                            <span className="font-semibold">Data Transmission:</span> Inputs
-                            may be transmitted to and processed by third-party services.
+                            <span className="font-semibold">Third-Party Processing:</span> 
+                            Inputs may be transmitted to and processed by external AI vendors 
+                            or cloud services.
                         </li>
                     </ol>
                 </div>
 
+                {/* OWNERSHIP */}
                 <div className="space-y-4">
-                    <h3 className="text-xl font-semibold">Ownership of Content and Commercial Use</h3>
+                    <h3 className="text-xl font-semibold">Ownership and Use of Content</h3>
                     <ol className="list-decimal list-inside space-y-3">
                         <li className="text-gray-700">
-                            <span className="font-semibold">Surrender of Rights:</span> By
-                            using the AI Chatbot, you irrevocably assign and surrender all rights,
-                            title, interest, and intellectual property rights in any content, inputs
-                            you provide, and outputs generated by the AI Chatbot to {OWNER_NAME}.
-                            This includes, but is not limited to, text, questions, and conversations.
+                            <span className="font-semibold">Assignment of Rights:</span> 
+                            By using the Chatbot, you assign all rights to the content you 
+                            input and the responses generated, including intellectual 
+                            property rights, to {OWNER_NAME}.
                         </li>
+
                         <li className="text-gray-700">
-                            <span className="font-semibold">Commercial and Research Use:</span>{" "}
-                            {OWNER_NAME} reserves the right to use any input provided by users and
-                            any output generated by the AI Chatbot for commercial purposes, research,
-                            or other activities without compensation or notification to users.
+                            <span className="font-semibold">Commercial and Research Use:</span> 
+                            {OWNER_NAME} may use user inputs and AI outputs for research, 
+                            product development, analysis, training, or commercial activities 
+                            without compensation or notification.
                         </li>
+
                         <li className="text-gray-700">
-                            <span className="font-semibold">No Claim to Gains or Profits:</span>{" "}
-                            Users agree that they have no rights, claims, or entitlement to
-                            any gains, profits, or benefits derived from the use or
-                            exploitation of the content provided to the AI Chatbot.
+                            <span className="font-semibold">No Claim to Profits:</span> 
+                            Users acknowledge that they hold no rights or claims to 
+                            any profits, benefits, or opportunities arising from content 
+                            generated or supplied through the Chatbot.
                         </li>
                     </ol>
                 </div>
 
+                {/* INDEMNIFICATION */}
                 <div className="space-y-4">
                     <h3 className="text-xl font-semibold">Indemnification</h3>
                     <p className="text-gray-700">
-                        By using the AI Chatbot, you agree to indemnify and hold harmless
-                        {OWNER_NAME}, his collaborators, partners, affiliated entities, and
-                        representatives from any claims, damages, losses, or liabilities
-                        arising out of your use of the AI Chatbot or violation of these
-                        terms.
+                        By using the Chatbot, you agree to indemnify and hold harmless 
+                        {OWNER_NAME}, collaborators, partners, and affiliated entities 
+                        from any claims, losses, damages, or liabilities arising from 
+                        your use of the Chatbot or violation of these terms.
                     </p>
                 </div>
 
+                {/* GOVERNING LAW */}
                 <div className="space-y-4">
                     <h3 className="text-xl font-semibold">Governing Law and Jurisdiction</h3>
                     <p className="text-gray-700">
-                        These terms are governed by the laws of the State of North Carolina,
-                        United States. Additional jurisdictions may apply for users outside
-                        the United States, subject to applicable local laws. In case of
-                        conflicts, the laws of North Carolina shall prevail to the extent
-                        permissible. Any disputes arising under or in connection with these
-                        terms shall be subject to the exclusive jurisdiction of the courts
-                        located in North Carolina.
+                        These terms are governed by the laws of India. 
+                        Additional local laws may apply depending on your jurisdiction. 
+                        Any disputes shall fall under the exclusive jurisdiction of 
+                        courts located in India.
                     </p>
                 </div>
 
+                {/* ACCEPTANCE */}
                 <div className="space-y-4">
                     <h3 className="text-xl font-semibold">Acceptance of Terms</h3>
                     <p className="text-gray-700">
-                        By using the AI Chatbot, you confirm that you have read, understood,
-                        and agreed to these Terms of Use and Disclaimer. If you do not
-                        agree with any part of these terms, you may not use the AI Chatbot.
+                        By using the Chatbot, you acknowledge that you have read, 
+                        understood, and agree to abide by these Terms of Use. 
+                        If you do not agree with any part of these terms, 
+                        please discontinue usage immediately.
                     </p>
                 </div>
 
