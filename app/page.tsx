@@ -314,20 +314,6 @@ export default function Chat() {
                   <BookOpen className="size-4 group-hover:text-accent transition-colors" />
                   Change Topic
                 </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="cursor-pointer glass-effect glass-border hover:glow-subtle hover:border-green-500/50 hover:text-green-400 transition-all duration-300 group"
-                  onClick={handleUploadCVClick}
-                  disabled={status === "streaming" || status === "submitted" || isUploadingCV}
-                >
-                  {isUploadingCV ? (
-                    <Loader2 className="size-4 animate-spin" />
-                  ) : (
-                    <Upload className="size-4 group-hover:text-green-400 transition-colors" />
-                  )}
-                  {isUploadingCV ? "Uploading..." : "Upload CV"}
-                </Button>
               </div>
             </div>
           </div>
