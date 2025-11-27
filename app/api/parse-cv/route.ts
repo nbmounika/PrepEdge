@@ -1,12 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-global.DOMMatrix = class DOMMatrix {
-  constructor() {
-    this.a = 1; this.b = 0; this.c = 0;
-    this.d = 1; this.e = 0; this.f = 0;
-  }
-};
-
-import { PDFParse } from 'pdf-parse';
+import pdf from 'pdf-parse';
 
 const ALLOWED_MIME_TYPES = ['application/pdf'];
 
@@ -18,15 +11,12 @@ export async function POST(req: NextRequest) {
     if (!file) {
       return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
     }
-
     if (!file.name.toLowerCase().endsWith('.pdf')) {
       return NextResponse.json({ error: 'Only PDF files are supported' }, { status: 400 });
     }
-
     if (file.type && !ALLOWED_MIME_TYPES.includes(file.type)) {
       return NextResponse.json({ error: 'Invalid file type. Only PDF files are allowed.' }, { status: 400 });
     }
-
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
     
@@ -35,24 +25,21 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid PDF file. The file does not appear to be a valid PDF.' }, { status: 400 });
     }
     
-    const parser = new PDFParse({ data: buffer });
-    const result = await parser.getText();
-    await parser.destroy();
+    // Use pdf-parse correctly - it's a function, not a class
+    const data = await pdf(buffer);
     
-    const extractedText = result.text
+    const extractedText = data.text
       .replace(/\s+/g, ' ')
       .trim();
-
     if (!extractedText || extractedText.length < 50) {
       return NextResponse.json({ 
         error: 'Could not extract meaningful text from the PDF. Please ensure the PDF contains readable text (not scanned images).' 
       }, { status: 400 });
     }
-
     return NextResponse.json({
       success: true,
       text: extractedText,
-      pages: result.total || 1,
+      pages: data.numpages,
       fileName: file.name,
     });
   } catch (error) {
