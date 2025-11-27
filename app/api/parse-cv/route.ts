@@ -24,22 +24,36 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid PDF file. The file does not appear to be a valid PDF.' }, { status: 400 });
     }
     
-    // Dynamic import to avoid TypeScript issues
-    const pdfParse = (await import('pdf-parse/lib/pdf-parse.js')).default;
-    const data = await pdfParse(buffer);
+    // Dynamic import pdfjs-dist
+    const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs');
     
-    const extractedText = data.text
-      .replace(/\s+/g, ' ')
-      .trim();
+    const typedArray = new Uint8Array(arrayBuffer);
+    const loadingTask = pdfjsLib.getDocument({ data: typedArray });
+    const pdfDocument = await loadingTask.promise;
+    
+    let extractedText = '';
+    
+    for (let i = 1; i <= pdfDocument.numPages; i++) {
+      const page = await pdfDocument.getPage(i);
+      const textContent = await page.getTextContent();
+      const pageText = textContent.items
+        .map((item: any) => item.str)
+        .join(' ');
+      extractedText += pageText + ' ';
+    }
+    
+    extractedText = extractedText.replace(/\s+/g, ' ').trim();
+    
     if (!extractedText || extractedText.length < 50) {
       return NextResponse.json({ 
         error: 'Could not extract meaningful text from the PDF. Please ensure the PDF contains readable text (not scanned images).' 
       }, { status: 400 });
     }
+    
     return NextResponse.json({
       success: true,
       text: extractedText,
-      pages: data.numpages,
+      pages: pdfDocument.numPages,
       fileName: file.name,
     });
   } catch (error) {
