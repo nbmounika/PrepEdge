@@ -329,13 +329,6 @@ export default function Chat() {
                   )}
                   {isUploadingCV ? "Uploading..." : "Upload CV"}
                 </Button>
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={handleFileChange}
-                  accept=".pdf"
-                  className="hidden"
-                />
               </div>
             </div>
           </div>
