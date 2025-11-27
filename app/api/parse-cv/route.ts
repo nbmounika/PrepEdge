@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import pdf from 'pdf-parse';
 
 const ALLOWED_MIME_TYPES = ['application/pdf'];
 
@@ -25,8 +24,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid PDF file. The file does not appear to be a valid PDF.' }, { status: 400 });
     }
     
-    // Use pdf-parse correctly - it's a function, not a class
-    const data = await pdf(buffer);
+    // Dynamic import to avoid TypeScript issues
+    const pdfParse = (await import('pdf-parse/lib/pdf-parse.js')).default;
+    const data = await pdfParse(buffer);
     
     const extractedText = data.text
       .replace(/\s+/g, ' ')
