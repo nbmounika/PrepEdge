@@ -2,11 +2,14 @@
 
 ## Overview
 
-PrepEdge is an AI-powered mock interview partner designed specifically for BITSoM (Birla Institute of Technology School of Management) MBA students. The application conducts realistic, technical interview simulations across multiple business domains (Marketing, Finance, Operations & General Management, and Consulting) to help students prepare for MBA placements. Built with Next.js and deployed on Vercel, it leverages AI language models, vector database search, and content moderation to deliver a comprehensive interview preparation experience.
+PrepEdge is an AI-powered mock interview partner designed specifically for BITSoM (Birla Institute of Technology School of Management) MBA students. The application conducts realistic, technical interview simulations across multiple business domains (Marketing, Finance, Operations & General Management, and Consulting) to help students prepare for MBA placements. Built with Next.js and deployed on Vercel, it leverages AI language models, vector database search, PDF parsing, and content moderation to deliver a comprehensive interview preparation experience.
+
+**Latest Feature**: CV Upload functionality allows students to upload their resume PDFs for personalized CV-based interview questions and feedback.
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Feature requests: Four control buttons (End Interview, Change Domain, Change Topic, Upload CV) must always be visible during chat.
 
 ## System Architecture
 
@@ -37,7 +40,13 @@ Preferred communication style: Simple, everyday language.
 
 **API Routes**: Next.js API routes in `app/api/` directory
 - `/api/chat/route.ts`: Main chat endpoint handling message streaming
+- `/api/parse-cv/route.ts`: PDF parsing endpoint for CV extraction
 - Tool-specific endpoints in `app/api/chat/tools/`
+
+**PDF Parsing**: 
+- Uses `pdf-parse` library for extracting text from PDF files
+- Validates PDF file format and extracts readable text content
+- Configured with `serverExternalPackages` in Next.js config to handle Node.js dependencies
 
 **AI Integration**: Vercel AI SDK
 - Multiple AI provider support (@ai-sdk/openai, @ai-sdk/fireworks, @ai-sdk/groq, @ai-sdk/deepseek, @ai-sdk/xai)
@@ -47,7 +56,9 @@ Preferred communication style: Simple, everyday language.
 
 **System Prompts & Configuration**:
 - `config.ts`: Application-wide settings (AI name, owner, welcome messages, moderation messages)
-- `prompts.ts`: AI behavior instructions, interview flow logic, domain/topic selection rules, and guardrails
+- `prompts.ts`: AI behavior instructions, interview flow logic, domain/topic selection rules, guardrails, and CV analysis logic
+  - `CV_ANALYSIS_PROMPT`: Handles CV summarization and personalized question generation based on resume content
+  - Includes instructions for behavioral, experience-specific, and skill demonstration questions
 
 **Content Moderation**:
 - OpenAI Moderation API integration (`lib/moderation.ts`)
