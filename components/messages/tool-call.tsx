@@ -1,5 +1,5 @@
 import { ToolCallPart, ToolResultPart } from "ai";
-import { Book, Globe, Search, Presentation, Wrench } from "lucide-react";
+import { Book, Globe, Search, Presentation, Wrench, CheckCircle } from "lucide-react";
 import { Shimmer } from "../ai-elements/shimmer";
 
 export interface ToolDisplay {
@@ -75,17 +75,17 @@ export function ToolCall({ part }: { part: ToolCallPart }) {
     const formattedArgs = formatToolArguments(toolName || "", input, toolDisplay);
 
     return (
-        <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2 text-muted-foreground shrink-0">
+        <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-secondary/50 border border-border/50">
+            <div className="flex items-center gap-2 text-primary shrink-0">
                 {toolDisplay.call_icon}
                 <Shimmer duration={1}>{toolDisplay.call_label}</Shimmer>
             </div>
             {toolDisplay.formatArgs && formattedArgs && (
-                <span className="text-muted-foreground/75 flex-1 min-w-0 truncate">
+                <span className="text-muted-foreground flex-1 min-w-0 truncate text-sm">
                     {formattedArgs}
                 </span>
             )}
-        </div >
+        </div>
     );
 }
 
@@ -98,16 +98,16 @@ export function ToolResult({ part }: { part: ToolResultPart }) {
     const formattedArgs = input !== undefined ? formatToolArguments(toolName || "", input, toolDisplay) : "";
 
     return (
-        <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2 text-muted-foreground shrink-0">
-                {toolDisplay.result_icon}
+        <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-green-500/10 border border-green-500/30">
+            <div className="flex items-center gap-2 text-green-400 shrink-0">
+                <CheckCircle className="w-4 h-4" />
                 <span>{toolDisplay.result_label}</span>
             </div>
             {toolDisplay.formatArgs && formattedArgs && (
-                <span className="text-muted-foreground/75 flex-1 min-w-0 truncate">
+                <span className="text-muted-foreground flex-1 min-w-0 truncate text-sm">
                     {formattedArgs}
                 </span>
             )}
         </div>
     );
-}   
+}

@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useChat } from "@ai-sdk/react";
-import { ArrowUp, Eraser, Loader2, Plus, PlusIcon, Square, XCircle, FolderSync, BookOpen } from "lucide-react";
+import { ArrowUp, Loader2, Plus, Square, XCircle, RefreshCw, BookOpen, Sparkles, MessageSquare } from "lucide-react";
 import { MessageWall } from "@/components/messages/message-wall";
 import { ChatHeader } from "@/app/parts/chat-header";
 import { ChatHeaderBlock } from "@/app/parts/chat-header";
@@ -149,28 +149,40 @@ export default function Chat() {
   }
 
   return (
-    <div className="flex h-screen items-center justify-center font-sans dark:bg-black">
-      <main className="w-full dark:bg-black h-screen relative">
-        <div className="fixed top-0 left-0 right-0 z-50 bg-linear-to-b from-background via-background/50 to-transparent dark:bg-black overflow-visible pb-16">
+    <div className="flex h-screen items-center justify-center font-sans">
+      <main className="w-full h-screen relative">
+        <div className="fixed top-0 left-0 right-0 z-50 glass-effect glass-border border-t-0 border-x-0">
           <div className="relative overflow-visible">
             <ChatHeader>
-              <ChatHeaderBlock />
+              <ChatHeaderBlock>
+                <div className="flex items-center gap-2">
+                  <div className="h-8 w-8 rounded-lg gradient-primary flex items-center justify-center glow-subtle">
+                    <Sparkles className="size-4 text-white" />
+                  </div>
+                </div>
+              </ChatHeaderBlock>
               <ChatHeaderBlock className="justify-center items-center">
-                <Avatar
-                  className="size-8 ring-1 ring-primary"
-                >
-                  <AvatarImage src="/logo.png" />
-                  <AvatarFallback>
-                    <Image src="/logo.png" alt="Logo" width={36} height={36} />
-                  </AvatarFallback>
-                </Avatar>
-                <p className="tracking-tight">Chat with {AI_NAME}</p>
+                <div className="flex items-center gap-3">
+                  <div className="relative">
+                    <Avatar className="size-10 ring-2 ring-primary/50 glow-subtle">
+                      <AvatarImage src="/logo.png" />
+                      <AvatarFallback className="gradient-primary text-white font-semibold">
+                        PE
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></div>
+                  </div>
+                  <div className="flex flex-col">
+                    <p className="text-lg font-semibold tracking-tight text-gradient">{AI_NAME}</p>
+                    <p className="text-xs text-muted-foreground">MBA Interview Coach</p>
+                  </div>
+                </div>
               </ChatHeaderBlock>
               <ChatHeaderBlock className="justify-end">
                 <Button
                   variant="outline"
                   size="sm"
-                  className="cursor-pointer"
+                  className="cursor-pointer glass-effect glass-border hover:glow-subtle transition-all duration-300"
                   onClick={clearChat}
                 >
                   <Plus className="size-4" />
@@ -180,63 +192,78 @@ export default function Chat() {
             </ChatHeader>
           </div>
         </div>
-        <div className="h-screen overflow-y-auto px-5 py-4 w-full pt-[88px] pb-[150px]">
+
+        <div className="h-screen overflow-y-auto px-5 py-4 w-full pt-[100px] pb-[200px]">
           <div className="flex flex-col items-center justify-end min-h-full">
             {isClient ? (
               <>
                 <MessageWall messages={messages} status={status} durations={durations} onDurationChange={handleDurationChange} />
                 {status === "submitted" && (
-                  <div className="flex justify-start max-w-3xl w-full">
-                    <Loader2 className="size-4 animate-spin text-muted-foreground" />
+                  <div className="flex justify-start max-w-3xl w-full py-4">
+                    <div className="flex items-center gap-3 px-4 py-3 rounded-2xl glass-effect glass-border">
+                      <div className="relative">
+                        <Loader2 className="size-5 animate-spin text-primary" />
+                        <div className="absolute inset-0 blur-sm">
+                          <Loader2 className="size-5 animate-spin text-primary opacity-50" />
+                        </div>
+                      </div>
+                      <span className="text-sm text-muted-foreground">Thinking...</span>
+                    </div>
                   </div>
                 )}
               </>
             ) : (
               <div className="flex justify-center max-w-2xl w-full">
-                <Loader2 className="size-4 animate-spin text-muted-foreground" />
+                <div className="flex items-center gap-3 px-4 py-3 rounded-2xl glass-effect glass-border">
+                  <Loader2 className="size-5 animate-spin text-primary" />
+                  <span className="text-sm text-muted-foreground">Loading...</span>
+                </div>
               </div>
             )}
           </div>
         </div>
-        <div className="fixed bottom-0 left-0 right-0 z-50 bg-linear-to-t from-background via-background/50 to-transparent dark:bg-black overflow-visible pt-13">
-          <div className="w-full px-5 pt-3 pb-1 items-center flex justify-center relative overflow-visible">
-            <div className="message-fade-overlay" />
+
+        <div className="fixed bottom-0 left-0 right-0 z-50">
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/95 to-transparent pointer-events-none"></div>
+          
+          <div className="relative w-full px-5 pt-4 pb-2 items-center flex justify-center">
             <div className="max-w-3xl w-full">
-              <div className="flex justify-center gap-2 mb-3">
+              <div className="flex justify-center gap-2 mb-4">
                 <Button
                   variant="outline"
                   size="sm"
-                  className="cursor-pointer"
+                  className="cursor-pointer glass-effect glass-border hover:glow-subtle hover:border-red-500/50 hover:text-red-400 transition-all duration-300 group"
                   onClick={handleEndInterview}
                   disabled={status === "streaming" || status === "submitted"}
                 >
-                  <XCircle className="size-4" />
+                  <XCircle className="size-4 group-hover:text-red-400 transition-colors" />
                   End Interview
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
-                  className="cursor-pointer"
+                  className="cursor-pointer glass-effect glass-border hover:glow-subtle hover:border-primary/50 transition-all duration-300 group"
                   onClick={handleChangeDomain}
                   disabled={status === "streaming" || status === "submitted"}
                 >
-                  <FolderSync className="size-4" />
+                  <RefreshCw className="size-4 group-hover:text-primary transition-colors" />
                   Change Domain
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
-                  className="cursor-pointer"
+                  className="cursor-pointer glass-effect glass-border hover:glow-subtle hover:border-accent/50 transition-all duration-300 group"
                   onClick={handleChangeTopic}
                   disabled={status === "streaming" || status === "submitted"}
                 >
-                  <BookOpen className="size-4" />
+                  <BookOpen className="size-4 group-hover:text-accent transition-colors" />
                   Change Topic
                 </Button>
               </div>
             </div>
           </div>
-          <div className="w-full px-5 pt-0 pb-1 items-center flex justify-center relative overflow-visible">
+
+          <div className="relative w-full px-5 pt-0 pb-2 items-center flex justify-center">
             <div className="max-w-3xl w-full">
               <form id="chat-form" onSubmit={form.handleSubmit(onSubmit)}>
                 <FieldGroup>
@@ -248,43 +275,49 @@ export default function Chat() {
                         <FieldLabel htmlFor="chat-form-message" className="sr-only">
                           Message
                         </FieldLabel>
-                        <div className="relative h-13">
-                          <Input
-                            {...field}
-                            id="chat-form-message"
-                            className="h-15 pr-15 pl-5 bg-card rounded-[20px]"
-                            placeholder="Type your message here..."
-                            disabled={status === "streaming"}
-                            aria-invalid={fieldState.invalid}
-                            autoComplete="off"
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter" && !e.shiftKey) {
-                                e.preventDefault();
-                                form.handleSubmit(onSubmit)();
-                              }
-                            }}
-                          />
-                          {(status == "ready" || status == "error") && (
-                            <Button
-                              className="absolute right-3 top-3 rounded-full"
-                              type="submit"
-                              disabled={!field.value.trim()}
-                              size="icon"
-                            >
-                              <ArrowUp className="size-4" />
-                            </Button>
-                          )}
-                          {(status == "streaming" || status == "submitted") && (
-                            <Button
-                              className="absolute right-2 top-2 rounded-full"
-                              size="icon"
-                              onClick={() => {
-                                stop();
+                        <div className="relative">
+                          <div className="absolute inset-0 rounded-2xl glow-subtle opacity-50"></div>
+                          <div className="relative flex items-center">
+                            <div className="absolute left-4 text-muted-foreground">
+                              <MessageSquare className="size-5" />
+                            </div>
+                            <Input
+                              {...field}
+                              id="chat-form-message"
+                              className="h-14 pr-14 pl-12 glass-effect glass-border rounded-2xl text-base placeholder:text-muted-foreground/70 focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all duration-300"
+                              placeholder="Type your message here..."
+                              disabled={status === "streaming"}
+                              aria-invalid={fieldState.invalid}
+                              autoComplete="off"
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter" && !e.shiftKey) {
+                                  e.preventDefault();
+                                  form.handleSubmit(onSubmit)();
+                                }
                               }}
-                            >
-                              <Square className="size-4" />
-                            </Button>
-                          )}
+                            />
+                            {(status == "ready" || status == "error") && (
+                              <Button
+                                className="absolute right-2 rounded-xl gradient-primary hover:opacity-90 transition-all duration-300 glow-subtle"
+                                type="submit"
+                                disabled={!field.value.trim()}
+                                size="icon"
+                              >
+                                <ArrowUp className="size-5 text-white" />
+                              </Button>
+                            )}
+                            {(status == "streaming" || status == "submitted") && (
+                              <Button
+                                className="absolute right-2 rounded-xl bg-red-500/80 hover:bg-red-500 transition-all duration-300"
+                                size="icon"
+                                onClick={() => {
+                                  stop();
+                                }}
+                              >
+                                <Square className="size-4 text-white" />
+                              </Button>
+                            )}
+                          </div>
                         </div>
                       </Field>
                     )}
@@ -293,11 +326,19 @@ export default function Chat() {
               </form>
             </div>
           </div>
-          <div className="w-full px-5 py-3 items-center flex justify-center text-xs text-muted-foreground">
-            © {new Date().getFullYear()} {OWNER_NAME}&nbsp;<Link href="/terms" className="underline">Terms of Use</Link>&nbsp;Powered by&nbsp;<Link href="https://ringel.ai/" className="underline">Ringel.AI</Link>
+
+          <div className="relative w-full px-5 py-3 items-center flex justify-center">
+            <div className="text-xs text-muted-foreground/70 flex items-center gap-1 flex-wrap justify-center">
+              <span>&copy; {new Date().getFullYear()} {OWNER_NAME}</span>
+              <span className="text-muted-foreground/40">|</span>
+              <Link href="/terms" className="hover:text-primary transition-colors underline-offset-4 hover:underline">Terms of Use</Link>
+              <span className="text-muted-foreground/40">|</span>
+              <span>Powered by</span>
+              <Link href="https://ringel.ai/" className="hover:text-primary transition-colors underline-offset-4 hover:underline">Ringel.AI</Link>
+            </div>
           </div>
         </div>
       </main>
-    </div >
+    </div>
   );
 }
