@@ -33,7 +33,7 @@ export function PDFUploadButton({ onPDFExtracted, disabled }: PDFUploadButtonPro
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await fetch('/api/upload-pdf', {
+      const response = await fetch('/api/parse-cv', {
         method: 'POST',
         body: formData,
       });
