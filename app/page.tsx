@@ -197,6 +197,7 @@ export default function Chat() {
       }
     }
   }
+
   function handlePDFExtracted(text: string, fileName: string) {
     const summarizePrompt = `I have extracted text from a PDF file named "${fileName}". Please read the following content and provide a comprehensive summary:\n\n${text}`;
     sendMessage({ text: summarizePrompt });
@@ -351,12 +352,6 @@ export default function Chat() {
                         <FieldLabel htmlFor="chat-form-message" className="sr-only">
                           Message
                         </FieldLabel>
-                         <div className="relative flex items-center gap-2">
-                          {/* PDF Upload Button - Left Side */}
-                          <PDFUploadButton 
-                            onPDFExtracted={handlePDFExtracted}
-                            disabled={status === "streaming" || status === "submitted"}
-                          />
                         <div className="relative">
                           <div className="absolute inset-0 rounded-2xl glow-subtle opacity-50"></div>
                           <div className="relative flex items-center">
