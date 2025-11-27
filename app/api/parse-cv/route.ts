@@ -2,39 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const ALLOWED_MIME_TYPES = ['application/pdf'];
 
-// Simple PDF text extractor without external dependencies
-async function extractTextFromPDF(buffer: Buffer): Promise<{ text: string; pages: number }> {
-  const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs');
-  
-  // Disable worker to avoid bundling issues
-  pdfjsLib.GlobalWorkerOptions.workerSrc = '';
-  
-  const typedArray = new Uint8Array(buffer);
-  const loadingTask = pdfjsLib.getDocument({
-    data: typedArray,
-    useWorkerFetch: false,
-    isEvalSupported: false,
-    useSystemFonts: true,
-  });
-  
-  const pdfDocument = await loadingTask.promise;
-  let extractedText = '';
-  
-  for (let i = 1; i <= pdfDocument.numPages; i++) {
-    const page = await pdfDocument.getPage(i);
-    const textContent = await page.getTextContent();
-    const pageText = textContent.items
-      .map((item: any) => item.str)
-      .join(' ');
-    extractedText += pageText + ' ';
-  }
-  
-  return {
-    text: extractedText.replace(/\s+/g, ' ').trim(),
-    pages: pdfDocument.numPages
-  };
-}
-
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
@@ -58,8 +25,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid PDF file. The file does not appear to be a valid PDF.' }, { status: 400 });
     }
     
-    const { text: extractedText, pages } = await extractTextFromPDF(buffer);
+    // Dynamic import with type assertion
+    const pdfParse = (await import('pdf-parse')).default as any;
+    const data = await pdfParse(buffer);
     
+    const extractedText = data.text
+      .replace(/\s+/g, ' ')
+      .trim();
+      
     if (!extractedText || extractedText.length < 50) {
       return NextResponse.json({ 
         error: 'Could not extract meaningful text from the PDF. Please ensure the PDF contains readable text (not scanned images).' 
@@ -69,7 +42,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       text: extractedText,
-      pages,
+      pages: data.numpages,
       fileName: file.name,
     });
   } catch (error) {
