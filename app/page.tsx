@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useChat } from "@ai-sdk/react";
-import { ArrowUp, Eraser, Loader2, Plus, PlusIcon, Square } from "lucide-react";
+import { ArrowUp, Eraser, Loader2, Plus, PlusIcon, Square, XCircle, FolderSync, BookOpen } from "lucide-react";
 import { MessageWall } from "@/components/messages/message-wall";
 import { ChatHeader } from "@/app/parts/chat-header";
 import { ChatHeaderBlock } from "@/app/parts/chat-header";
@@ -136,6 +136,18 @@ export default function Chat() {
     toast.success("Chat cleared");
   }
 
+  function handleEndInterview() {
+    sendMessage({ text: "End Interview" });
+  }
+
+  function handleChangeDomain() {
+    sendMessage({ text: "Change Domain" });
+  }
+
+  function handleChangeTopic() {
+    sendMessage({ text: "Change Topic" });
+  }
+
   return (
     <div className="flex h-screen items-center justify-center font-sans dark:bg-black">
       <main className="w-full dark:bg-black h-screen relative">
@@ -187,8 +199,44 @@ export default function Chat() {
           </div>
         </div>
         <div className="fixed bottom-0 left-0 right-0 z-50 bg-linear-to-t from-background via-background/50 to-transparent dark:bg-black overflow-visible pt-13">
-          <div className="w-full px-5 pt-5 pb-1 items-center flex justify-center relative overflow-visible">
+          <div className="w-full px-5 pt-3 pb-1 items-center flex justify-center relative overflow-visible">
             <div className="message-fade-overlay" />
+            <div className="max-w-3xl w-full">
+              <div className="flex justify-center gap-2 mb-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="cursor-pointer"
+                  onClick={handleEndInterview}
+                  disabled={status === "streaming" || status === "submitted"}
+                >
+                  <XCircle className="size-4" />
+                  End Interview
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="cursor-pointer"
+                  onClick={handleChangeDomain}
+                  disabled={status === "streaming" || status === "submitted"}
+                >
+                  <FolderSync className="size-4" />
+                  Change Domain
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="cursor-pointer"
+                  onClick={handleChangeTopic}
+                  disabled={status === "streaming" || status === "submitted"}
+                >
+                  <BookOpen className="size-4" />
+                  Change Topic
+                </Button>
+              </div>
+            </div>
+          </div>
+          <div className="w-full px-5 pt-0 pb-1 items-center flex justify-center relative overflow-visible">
             <div className="max-w-3xl w-full">
               <form id="chat-form" onSubmit={form.handleSubmit(onSubmit)}>
                 <FieldGroup>
