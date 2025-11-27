@@ -23,7 +23,6 @@ import { useEffect, useState, useRef, ChangeEvent } from "react";
 import { AI_NAME, CLEAR_CHAT_TEXT, OWNER_NAME, WELCOME_MESSAGE } from "@/config";
 import Image from "next/image";
 import Link from "next/link";
-import { PDFUploadButton } from "@/components/pdf-upload-button";
 
 const formSchema = z.object({
   message: z
